@@ -1,0 +1,88 @@
+{% extends "jobs/base.html" %}
+
+{% block titile_block %}
+Al Amin Khan
+{% endblock %}
+
+{% block post_card_block %}
+<div class="row text-center">
+
+
+  {% for job in jobs %}
+
+  <div class="col-lg-3 col-md-6 mb-4">
+    <div class="card h-100 p-1">
+      <div class="embed-responsive embed-responsive-16by9">
+        <img class="card-img-top top embed-responsive-item round" src="{{ job.image.url }}" alt="image-{{job}}">
+      </div>
+      <small class="text-muted mr-auto">
+        <small class="mr-1">Posted on: {{job.job_pub_time}}</small>
+      </small>
+
+      <div class="card-body">
+        <h4 class="card-title text-dark text-center">{{ job.title }}</h4>
+        <p class="card-text text-dark text-justify">{{ job.description }}</p>
+      </div>
+      <div class="card-footer">
+        <a href="#" class="btn btn-primary">Find Out More!</a>
+      </div>
+    </div>
+  </div>
+  
+  {% endfor %}
+
+
+  <div class="pagination container justify-content-center">
+    <nav aria-label="page navigation">
+      <ul class="pagination justify-content-center">
+        {% if jobs.has_previous %}
+        <li class="page-item">
+          <a class="page-link" href="?page=1">
+            <i class="fa fa-angle-double-left" aria-hidden="true"></i>
+          </a>
+        </li>
+        <li class="page-item">
+          <a class="page-link" href="?page={{ jobs.previous_page_number }}">
+            <i class="fa fa-angle-left" aria-hidden="true"></i>
+          </a>
+        </li>
+        {% endif %}
+
+        {% for num in jobs.paginator.page_range %}
+
+        {% if jobs.number == num %}
+        <li class="page-item">
+          <a class="page-link text-light bg-primary font-weight-bold rounded">{{ num }}</a>
+        </li>
+        {% elif num > jobs.number|add:'-5' and num < jobs.number|add:'5' %}
+        <li class="page-item">
+          <a class="page-link" href="?page={{ num }}">{{ num }}</a>
+        </li>
+          {% endif %}
+
+          {% endfor %}
+
+          {% if jobs.has_next %}
+          <li class="page-item">
+            <a class="page-link" href="?page={{ jobs.next_page_number }}">
+              <i class="fa fa-angle-right" aria-hidden="true"></i>
+            </a>
+          </li>
+          <li class="page-item">
+            <a class="page-link" href="?page={{ jobs.paginator.num_pages }}">
+              <i class="fa fa-angle-double-right" aria-hidden="true"></i>
+            </a>
+          </li>
+          {% endif %}
+      </ul>
+    </nav>
+  </div>
+</div>
+
+
+
+{% endblock %}
+
+{% block body_block %}
+
+{% endblock %}
